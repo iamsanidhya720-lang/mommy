@@ -1,362 +1,231 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SafeArrive - Location Tracker</title>
-    <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: system-ui, sans-serif; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh; padding: 20px; }
-        .container { max-width: 800px; margin: 0 auto; }
-        .card { background: white; border-radius: 16px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2); padding: 30px; margin-bottom: 20px; }
-        .header { display: flex; align-items: center; gap: 15px; margin-bottom: 10px; }
-        .header-icon { width: 50px; height: 50px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 12px; display: flex; align-items: center; justify-content: center; color: white; font-size: 24px; }
-        h1 { font-size: 32px; color: #1a202c; }
-        .subtitle { color: #718096; }
-        h2 { font-size: 24px; color: #1a202c; margin-bottom: 20px; }
-        .form-group { margin-bottom: 25px; }
-        label { display: block; font-weight: 600; color: #4a5568; margin-bottom: 8px; font-size: 14px; }
-        input { width: 100%; padding: 14px; border: 2px solid #e2e8f0; border-radius: 10px; font-size: 16px; }
-        input:focus { outline: none; border-color: #667eea; }
-        .location-box { border: 2px solid #e2e8f0; border-radius: 12px; padding: 20px; margin-bottom: 15px; }
-        .location-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 15px; }
-        .location-title { display: flex; align-items: center; gap: 10px; font-weight: 600; color: #2d3748; }
-        .location-icon { width: 30px; height: 30px; background: #667eea; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: white; }
-        .check-icon { color: #48bb78; font-size: 20px; font-weight: bold; }
-        .location-coords { font-size: 12px; color: #718096; margin-top: 10px; font-family: monospace; background: #f7fafc; padding: 8px; border-radius: 6px; }
-        .btn { width: 100%; padding: 14px 24px; border: none; border-radius: 10px; font-size: 16px; font-weight: 600; cursor: pointer; transition: all 0.3s; }
-        .btn:disabled { background: #cbd5e0; cursor: not-allowed; opacity: 0.6; }
-        .btn-primary { background: #667eea; color: white; }
-        .btn-primary:hover:not(:disabled) { background: #5a67d8; }
-        .btn-success { background: #48bb78; color: white; }
-        .btn-success:hover:not(:disabled) { background: #38a169; }
-        .btn-danger { background: #f56565; color: white; }
-        .btn-danger:hover { background: #e53e3e; }
-        .btn-secondary { background: #4a5568; color: white; }
-        .btn-secondary:hover { background: #2d3748; }
-        .btn-group { display: flex; gap: 10px; }
-        .btn-group .btn { flex: 1; }
-        .status-indicator { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; }
-        .status-badge { display: flex; align-items: center; gap: 8px; font-weight: 600; }
-        .status-dot { width: 12px; height: 12px; border-radius: 50%; background: #48bb78; }
-        .current-location { background: #f7fafc; border-radius: 10px; padding: 15px; margin-bottom: 20px; }
-        .current-location p { color: #4a5568; font-size: 14px; margin-bottom: 5px; }
-        .coords { font-family: monospace; font-size: 12px; color: #718096; }
-        .notification { display: flex; gap: 12px; padding: 15px; border-radius: 10px; margin-bottom: 10px; }
-        .notification.success { background: #f0fff4; border-left: 4px solid #48bb78; }
-        .notification.error { background: #fff5f5; border-left: 4px solid #f56565; }
-        .notification.info { background: #ebf8ff; border-left: 4px solid #4299e1; }
-        .notification-content { flex: 1; }
-        .notification-message { color: #2d3748; font-size: 14px; margin-bottom: 4px; }
-        .notification-time { color: #718096; font-size: 12px; }
-        .info-box { background: #fffbeb; border: 2px solid #fbd38d; border-radius: 10px; padding: 20px; }
-        .info-box p { color: #744210; line-height: 1.6; }
-        .hidden { display: none; }
-        .distance-info { margin-top: 10px; padding: 10px; background: #e6fffa; border-radius: 8px; font-size: 13px; color: #234e52; }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SafeArrive - Location Tracker</title>
+<style>
+body {
+  font-family: "Segoe UI", sans-serif;
+  background: linear-gradient(135deg, #74b9ff, #a29bfe);
+  color: #222;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  min-height: 100vh;
+}
+.container {
+  margin-top: 30px;
+  width: 90%;
+  max-width: 500px;
+}
+.card {
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 20px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+  padding: 20px;
+  margin-bottom: 20px;
+}
+.card h2 {
+  margin-top: 0;
+  text-align: center;
+  color: #0984e3;
+}
+input, button {
+  width: 100%;
+  padding: 10px;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  margin-top: 8px;
+  margin-bottom: 12px;
+  font-size: 16px;
+}
+button {
+  background: #0984e3;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+button:disabled {
+  background: #b2bec3;
+  cursor: not-allowed;
+}
+.status {
+  text-align: center;
+  margin-top: 10px;
+  font-weight: bold;
+}
+.notification {
+  border-left: 5px solid;
+  padding: 10px;
+  margin: 5px 0;
+  border-radius: 8px;
+}
+.notification.success { border-color: #00b894; background: #dfffe2; }
+.notification.error { border-color: #d63031; background: #ffe0e0; }
+.notification.info { border-color: #0984e3; background: #e3f2fd; }
+.notification-time { font-size: 12px; color: #636e72; text-align: right; }
+</style>
 </head>
 <body>
-    <div class="container">
-        <div class="card">
-            <div class="header">
-                <div class="header-icon">X</div>
-                <div>
-                    <h1>SafeArrive</h1>
-                    <p class="subtitle">Keep your parents informed about your safe arrival</p>
-                </div>
-            </div>
-        </div>
-        <div id="setupView">
-            <div class="card">
-                <h2>Setup</h2>
-                <div class="form-group">
-                    <label for="parentEmail">Parent Email Address</label>
-                    <input type="email" id="parentEmail" placeholder="parent@example.com">
-                </div>
-                <div class="location-box">
-                    <div class="location-header">
-                        <div class="location-title">
-                            <div class="location-icon">S</div>
-                            <span>School Location</span>
-                        </div>
-                        <span id="schoolCheck" class="check-icon hidden">OK</span>
-                    </div>
-                    <button class="btn btn-primary" onclick="setLocation('school')">Set Current Location as School</button>
-                    <div id="schoolCoords" class="location-coords hidden"></div>
-                    <div style="margin-top:10px">
-                        <label for="schoolRadius">Detection Radius (meters)</label>
-                        <input type="number" id="schoolRadius" value="100" min="50" max="500">
-                    </div>
-                </div>
-                <div class="location-box">
-                    <div class="location-header">
-                        <div class="location-title">
-                            <div class="location-icon">H</div>
-                            <span>Home Location</span>
-                        </div>
-                        <span id="homeCheck" class="check-icon hidden">OK</span>
-                    </div>
-                    <button class="btn btn-primary" onclick="setLocation('home')">Set Current Location as Home</button>
-                    <div id="homeCoords" class="location-coords hidden"></div>
-                    <div style="margin-top:10px">
-                        <label for="homeRadius">Detection Radius (meters)</label>
-                        <input type="number" id="homeRadius" value="100" min="50" max="500">
-                    </div>
-                </div>
-                <button class="btn btn-success" id="startTrackingBtn" onclick="startTracking()" disabled>Start Tracking</button>
-            </div>
-        </div>
-        <div id="trackingView" class="hidden">
-            <div class="card">
-                <div class="status-indicator">
-                    <h2 style="margin: 0;">Tracking Status</h2>
-                    <div class="status-badge">
-                        <span class="status-dot"></span>
-                        <span>Active</span>
-                    </div>
-                </div>
-                <div class="current-location">
-                    <p><strong>Current Location:</strong></p>
-                    <p class="coords" id="currentCoords">Getting location...</p>
-                    <p class="coords" id="currentAccuracy"></p>
-                </div>
-                <div id="distanceInfo" class="distance-info hidden">
-                    <p><strong>Distance from locations:</strong></p>
-                    <p id="schoolDistance"></p>
-                    <p id="homeDistance"></p>
-                </div>
-                <div class="btn-group">
-                    <button class="btn btn-danger" onclick="stopTracking()">Stop Tracking</button>
-                    <button class="btn btn-secondary" onclick="showSettings()">Settings</button>
-                </div>
-            </div>
-            <div class="card">
-                <p><strong>@ Notifications sent to:</strong></p>
-                <p id="parentEmailDisplay"></p>
-            </div>
-        </div>
-        <div class="card" id="activityCard" style="display: none;">
-            <h2>Activity Log</h2>
-            <div id="activityLog"></div>
-        </div>
-        <div class="info-box">
-            <p><strong>Note:</strong> This is an MVP demo. Keep this tab open and allow location access for tracking to work. Simulated notifications are logged to the browser console (press F12 to view).</p>
-        </div>
+<div class="container">
+  <div class="card" id="setupCard">
+    <h2>SafeArrive Setup</h2>
+    <label>Parent Email:</label>
+    <input type="email" id="parentEmail" placeholder="Enter parent's email" />
+    <label>Home Location:</label>
+    <button onclick="setHome()">Set Home Location</button>
+    <label>School Location:</label>
+    <button onclick="setSchool()">Set School Location</button>
+    <label>Radius (meters):</label>
+    <input type="number" id="radius" value="100" />
+    <button id="startBtn" onclick="startTracking()" disabled>Start Tracking</button>
+  </div>
+
+  <div class="card" id="trackingCard" style="display:none;">
+    <h2>Tracking</h2>
+    <p><b>Current:</b> <span id="curLat">-</span>, <span id="curLon">-</span></p>
+    <p><b>Accuracy:</b> <span id="curAcc">-</span>m</p>
+    <p><b>Distance from Home:</b> <span id="distHome">-</span>m</p>
+    <p><b>Distance from School:</b> <span id="distSchool">-</span>m</p>
+    <button onclick="stopTracking()">Stop Tracking</button>
+    <button onclick="openSettings()">Settings</button>
+    <div class="status" id="statusMsg">Tracking active...</div>
+  </div>
+
+  <div class="card" id="activityCard" style="display:none;">
+    <h2>Activity Log</h2>
+    <div id="activityLog"></div>
+  </div>
+</div>
+
+<!-- ✅ EmailJS SDK -->
+<script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
+<script>
+(function(){
+  emailjs.init("t82a_ClY9-HuSiQX_"); // your public key
+})();
+</script>
+
+<script>
+let appState = {
+  parentEmail: '',
+  home: null,
+  school: null,
+  radius: 100,
+  tracking: false,
+  watchId: null
+};
+
+function setHome() {
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(pos => {
+      appState.home = { lat: pos.coords.latitude, lon: pos.coords.longitude };
+      addNotification('Home location set successfully.', 'success');
+      checkSetupComplete();
+    }, () => addNotification('Unable to access location.', 'error'));
+  }
+}
+
+function setSchool() {
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(pos => {
+      appState.school = { lat: pos.coords.latitude, lon: pos.coords.longitude };
+      addNotification('School location set successfully.', 'success');
+      checkSetupComplete();
+    }, () => addNotification('Unable to access location.', 'error'));
+  }
+}
+
+function checkSetupComplete() {
+  appState.parentEmail = document.getElementById('parentEmail').value.trim();
+  appState.radius = parseInt(document.getElementById('radius').value);
+  document.getElementById('startBtn').disabled = !(appState.parentEmail && appState.home && appState.school);
+}
+
+function startTracking() {
+  document.getElementById('setupCard').style.display = 'none';
+  document.getElementById('trackingCard').style.display = 'block';
+  appState.tracking = true;
+  if (navigator.geolocation) {
+    appState.watchId = navigator.geolocation.watchPosition(updatePosition, handleError, { enableHighAccuracy: true, maximumAge: 0, timeout: 5000 });
+  } else addNotification('Geolocation not supported.', 'error');
+}
+
+function stopTracking() {
+  if (appState.watchId) navigator.geolocation.clearWatch(appState.watchId);
+  appState.tracking = false;
+  addNotification('Tracking stopped.', 'info');
+  document.getElementById('trackingCard').style.display = 'none';
+  document.getElementById('setupCard').style.display = 'block';
+}
+
+function openSettings() {
+  stopTracking();
+}
+
+function handleError(err) {
+  addNotification('Error getting location: ' + err.message, 'error');
+}
+
+function updatePosition(pos) {
+  const lat = pos.coords.latitude, lon = pos.coords.longitude, acc = pos.coords.accuracy;
+  document.getElementById('curLat').textContent = lat.toFixed(5);
+  document.getElementById('curLon').textContent = lon.toFixed(5);
+  document.getElementById('curAcc').textContent = acc.toFixed(0);
+
+  const dHome = calcDistance(lat, lon, appState.home.lat, appState.home.lon);
+  const dSchool = calcDistance(lat, lon, appState.school.lat, appState.school.lon);
+  document.getElementById('distHome').textContent = dHome.toFixed(1);
+  document.getElementById('distSchool').textContent = dSchool.toFixed(1);
+
+  if (dHome < appState.radius) sendNotification('home', dHome);
+  else if (dSchool < appState.radius) sendNotification('school', dSchool);
+}
+
+function calcDistance(lat1, lon1, lat2, lon2) {
+  const R = 6371e3;
+  const p1 = lat1 * Math.PI/180, p2 = lat2 * Math.PI/180;
+  const dp = (lat2-lat1)*Math.PI/180, dl = (lon2-lon1)*Math.PI/180;
+  const a = Math.sin(dp/2)**2 + Math.cos(p1)*Math.cos(p2)*Math.sin(dl/2)**2;
+  return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+}
+
+function sendNotification(locType, dist) {
+  const locName = locType === 'school' ? 'school' : 'home';
+  const msg = 'Child reached ' + locName + ' safely (' + dist.toFixed(0) + 'm)';
+  const params = {
+    to_email: appState.parentEmail,
+    subject: 'SafeArrive - ' + locName + ' arrival',
+    message: msg
+  };
+
+  emailjs.send("service_2bnzy7l", "template_go8hdom", params)
+  .then(res => {
+    console.log("✅ Email sent!", res.status, res.text);
+    addNotification('Email sent: ' + msg, 'success');
+  })
+  .catch(err => {
+    console.error("❌ Email failed:", err);
+    addNotification('Email failed: ' + err.text, 'error');
+  });
+}
+
+function addNotification(message, type) {
+  const log = document.getElementById('activityLog');
+  const time = new Date().toLocaleTimeString();
+  log.insertAdjacentHTML('afterbegin', `
+    <div class="notification ${type}">
+      <div class="notification-content">
+        <div class="notification-message">${message}</div>
+        <div class="notification-time">${time}</div>
+      </div>
     </div>
-    <script>
-    var appState = { locations: { school: { lat: null, lon: null, radius: 100 }, home: { lat: null, lon: null, radius: 100 } }, parentEmail: '', currentLocation: null, isTracking: false, watchId: null, lastNotified: { school: null, home: null }, notifications: [] };
-    
-    function init() { 
-        checkSetupComplete(); 
-        if (navigator.geolocation) { 
-            navigator.geolocation.getCurrentPosition(
-                function(pos) { addNotification('Location access granted', 'success'); }, 
-                function(err) { addNotification('Enable location access', 'error'); }
-            ); 
-        } 
-    }
-    
-    function setLocation(type) { 
-        if (!navigator.geolocation) { 
-            addNotification('Geolocation not supported', 'error'); 
-            return; 
-        } 
-        addNotification('Getting ' + type + ' location...', 'info'); 
-        navigator.geolocation.getCurrentPosition(
-            function(position) { 
-                var radiusInput = document.getElementById(type + 'Radius'); 
-                var radius = parseInt(radiusInput.value) || 100; 
-                appState.locations[type] = { lat: position.coords.latitude, lon: position.coords.longitude, radius: radius }; 
-                document.getElementById(type + 'Check').classList.remove('hidden'); 
-                var coordsEl = document.getElementById(type + 'Coords'); 
-                coordsEl.classList.remove('hidden'); 
-                coordsEl.textContent = 'Lat: ' + position.coords.latitude.toFixed(6) + ', Lon: ' + position.coords.longitude.toFixed(6) + ', Radius: ' + radius + 'm'; 
-                var locationName = type === 'school' ? 'School' : 'Home'; 
-                addNotification(locationName + ' location set', 'success'); 
-                checkSetupComplete(); 
-            }, 
-            function(error) { 
-                addNotification('Error getting location', 'error'); 
-            }
-        ); 
-    }
-    
-    function checkSetupComplete() { 
-        var email = document.getElementById('parentEmail').value; 
-        var schoolSet = appState.locations.school.lat !== null; 
-        var homeSet = appState.locations.home.lat !== null; 
-        var startBtn = document.getElementById('startTrackingBtn'); 
-        if (startBtn) { 
-            startBtn.disabled = !(email && schoolSet && homeSet); 
-        } 
-    }
-    
-    function startTracking() { 
-        var email = document.getElementById('parentEmail').value; 
-        if (!email) { 
-            addNotification('Enter parent email', 'error'); 
-            return; 
-        } 
-        if (!appState.locations.school.lat || !appState.locations.home.lat) { 
-            addNotification('Set both locations', 'error'); 
-            return; 
-        } 
-        appState.parentEmail = email; 
-        appState.isTracking = true; 
-        document.getElementById('setupView').classList.add('hidden'); 
-        document.getElementById('trackingView').classList.remove('hidden'); 
-        document.getElementById('parentEmailDisplay').textContent = email; 
-        if (navigator.geolocation) { 
-            appState.watchId = navigator.geolocation.watchPosition(
-                handleLocationUpdate, 
-                handleLocationError, 
-                { enableHighAccuracy: true, maximumAge: 10000, timeout: 5000 }
-            ); 
-        } 
-        addNotification('Tracking started', 'success'); 
-    }
-    
-    function stopTracking() { 
-        appState.isTracking = false; 
-        if (appState.watchId) { 
-            navigator.geolocation.clearWatch(appState.watchId); 
-            appState.watchId = null; 
-        } 
-        addNotification('Tracking stopped', 'info'); 
-    }
-    
-    function showSettings() { 
-        stopTracking(); 
-        document.getElementById('trackingView').classList.add('hidden'); 
-        document.getElementById('setupView').classList.remove('hidden'); 
-    }
-    
-    function handleLocationUpdate(position) { 
-        appState.currentLocation = { lat: position.coords.latitude, lon: position.coords.longitude, accuracy: position.coords.accuracy }; 
-        document.getElementById('currentCoords').textContent = position.coords.latitude.toFixed(6) + ', ' + position.coords.longitude.toFixed(6); 
-        document.getElementById('currentAccuracy').textContent = 'Accuracy: ' + position.coords.accuracy.toFixed(0) + 'm'; 
-        updateDistanceDisplay(appState.currentLocation); 
-        checkLocationAndNotify(appState.currentLocation); 
-    }
-    
-    function updateDistanceDisplay(current) { 
-        var distanceInfoEl = document.getElementById('distanceInfo'); 
-        var schoolDistEl = document.getElementById('schoolDistance'); 
-        var homeDistEl = document.getElementById('homeDistance'); 
-        if (appState.locations.school.lat && appState.locations.home.lat) { 
-            distanceInfoEl.classList.remove('hidden'); 
-            var schoolDist = calculateDistance(current.lat, current.lon, appState.locations.school.lat, appState.locations.school.lon); 
-            var homeDist = calculateDistance(current.lat, current.lon, appState.locations.home.lat, appState.locations.home.lon); 
-            schoolDistEl.textContent = 'School: ' + schoolDist.toFixed(0) + 'm away'; 
-            homeDistEl.textContent = 'Home: ' + homeDist.toFixed(0) + 'm away'; 
-        } 
-    }
-    
-    function handleLocationError(error) { 
-        var errorMsg = 'Location error'; 
-        if (error.code === 1) { 
-            errorMsg = 'Permission denied'; 
-        } else if (error.code === 2) { 
-            errorMsg = 'Position unavailable'; 
-        } else if (error.code === 3) { 
-            errorMsg = 'Timeout'; 
-        } 
-        addNotification(errorMsg, 'error'); 
-    }
-    
-    function calculateDistance(lat1, lon1, lat2, lon2) { 
-        var R = 6371000; 
-        var toRad = 0.017453292519943295; 
-        var p1 = lat1 * toRad; 
-        var p2 = lat2 * toRad; 
-        var dp = (lat2 - lat1) * toRad; 
-        var dl = (lon2 - lon1) * toRad; 
-        var a = Math.sin(dp / 2) * Math.sin(dp / 2) + Math.cos(p1) * Math.cos(p2) * Math.sin(dl / 2) * Math.sin(dl / 2); 
-        var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a)); 
-        return R * c; 
-    }
-    
-    function checkLocationAndNotify(current) { 
-        var now = Date.now(); 
-        var cooldown = 1800000; 
-        var locs = ['school', 'home']; 
-        var i = 0; 
-        while (i < locs.length) { 
-            var locType = locs[i]; 
-            var loc = appState.locations[locType]; 
-            if (loc.lat && loc.lon) { 
-                var dist = calculateDistance(current.lat, current.lon, loc.lat, loc.lon); 
-                if (dist <= loc.radius) { 
-                    var lastTime = appState.lastNotified[locType]; 
-                    if (!lastTime || (now - lastTime) > cooldown) { 
-                        sendNotification(locType, dist); 
-                        appState.lastNotified[locType] = now; 
-                    } 
-                } 
-            } 
-            i = i + 1; 
-        } 
-    }
-    
-    function sendNotification(locType, dist) { 
-        var locName = locType === 'school' ? 'school' : 'home'; 
-        var msg = 'Child reached ' + locName + ' safely (' + dist.toFixed(0) + 'm)'; 
-        console.log('EMAIL TO: ' + appState.parentEmail); 
-        console.log('SUBJECT: SafeArrive - ' + locName + ' arrival'); 
-        console.log('MESSAGE: ' + msg); 
-        addNotification('Notification sent: ' + msg, 'success'); 
-    }
-    
-    function addNotification(message, type) { 
-        var notif = { id: Date.now(), message: message, type: type || 'info', time: new Date().toLocaleTimeString() }; 
-        appState.notifications.unshift(notif); 
-        if (appState.notifications.length > 10) { 
-            appState.notifications = appState.notifications.slice(0, 10); 
-        } 
-        updateNotificationLog(); 
-    }
-    
-    function updateNotificationLog() { 
-        var logEl = document.getElementById('activityLog'); 
-        var cardEl = document.getElementById('activityCard'); 
-        if (appState.notifications.length === 0) { 
-            cardEl.style.display = 'none'; 
-            return; 
-        } 
-        cardEl.style.display = 'block'; 
-        var html = ''; 
-        var i = 0; 
-        while (i < appState.notifications.length) { 
-            var n = appState.notifications[i]; 
-            html += '<div class="notification ' + n.type + '">'; 
-            html += '<div class="notification-content">'; 
-            html += '<div class="notification-message">' + n.message + '</div>'; 
-            html += '<div class="notification-time">' + n.time + '</div>'; 
-            html += '</div></div>'; 
-            i = i + 1; 
-        } 
-        logEl.innerHTML = html; 
-    }
-    
-    document.getElementById('parentEmail').addEventListener('input', checkSetupComplete);
-    
-    document.getElementById('schoolRadius').addEventListener('change', function() { 
-        if (appState.locations.school.lat) { 
-            appState.locations.school.radius = parseInt(this.value); 
-        } 
-    });
-    
-    document.getElementById('homeRadius').addEventListener('change', function() { 
-        if (appState.locations.home.lat) { 
-            appState.locations.home.radius = parseInt(this.value); 
-        } 
-    });
-    
-    if (document.readyState === 'loading') { 
-        document.addEventListener('DOMContentLoaded', init); 
-    } else { 
-        init(); 
-    }
-    </script>
+  `);
+  document.getElementById('activityCard').style.display = 'block';
+}
+</script>
 </body>
 </html>
